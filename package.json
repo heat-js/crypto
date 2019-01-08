@@ -1,0 +1,40 @@
+{
+  "name": "@heat/crypto",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heat-js/crypto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heat-js/crypto/issues"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/jest",
+    "patch": "if yarn test; then yarn publish --patch; fi",
+    "minor": "if yarn test; then yarn publish --minor; fi",
+    "major": "if yarn test; then yarn publish --major; fi",
+    "prepublish": "bash ./build.sh",
+    "postpublish": "yarn cleanup",
+    "cleanup": "rm -r encrypt; rm -r hash;"
+  },
+  "jest": {
+    "preset": "jest-preset-coffeescript",
+    "testEnvironment": "node"
+  },
+  "babel": {
+    "plugins": [
+      "babel-plugin-transform-es2015-modules-commonjs-optimized"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs-optimized": "^6.16.0",
+    "bcrypt": "^3.0.3",
+    "coffeescript": "^2.3.1",
+    "jest": "^23.6.0",
+    "jest-preset-coffeescript": "^1.0.0"
+  }
+}
