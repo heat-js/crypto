@@ -1,16 +1,22 @@
 
 export default class Hasher
 
+	separator: '.'
+
 	constructor: (@processors) ->
 
 	get: (version) ->
 		return @processors[version - 1].slice()
 
 	parse: (hash) ->
-		[ version, hash ] = String hash
-			.split '@'
+		parts = String hash
+			.split @separator
 
+		version = parts.shift()
 		version = parseInt version, 10
+
+		hash = parts.join @separator
+
 		return {
 			version: version or 1
 			hash
@@ -37,4 +43,4 @@ export default class Hasher
 		for processor in @get version
 			payload = processor.hash payload, passphrase
 
-		return [ version, payload ].join '@'
+		return [ version, payload ].join @separator

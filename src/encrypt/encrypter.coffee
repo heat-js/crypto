@@ -1,16 +1,22 @@
 
 export default class Encrypter
 
+	separator: '.'
+
 	constructor: (@processors) ->
 
 	get: (version) ->
 		return @processors[version - 1].slice()
 
 	parse: (payload) ->
-		[ version, payload ] = String payload
-			.split '@'
+		parts = String payload
+			.split @separator
 
+		version = parts.shift()
 		version = parseInt version, 10
+
+		payload = parts.join @separator
+
 		return {
 			version: version or 1
 			payload
@@ -30,7 +36,7 @@ export default class Encrypter
 		for processor in @get version
 			payload = processor.encrypt payload, passphrase
 
-		return [ version, payload ].join '@'
+		return [ version, payload ].join @separator
 
 	decrypt: (payload, passphrase) ->
 		{ version, payload } = @parse payload

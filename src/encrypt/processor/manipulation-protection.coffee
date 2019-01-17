@@ -3,6 +3,8 @@ import crypto from 'crypto'
 
 export default class ManipulationProtection
 
+	separator: '.'
+
 	constructor: (@algorithm, @salt) ->
 
 	generateKey: (passphrase) ->
@@ -20,13 +22,13 @@ export default class ManipulationProtection
 		return [
 			hash
 			payload
-		].join ':'
+		].join @separator
 
 	decrypt: (payload, passphrase) ->
 		key 		= @generateKey passphrase
-		parts 		= payload.split ':'
+		parts 		= payload.split @separator
 		hash 		= parts.shift()
-		encrypted 	= parts.join ':'
+		encrypted 	= parts.join @separator
 
 		hmac = crypto.createHmac @algorithm, key
 		hmac.update encrypted, 'utf8'
